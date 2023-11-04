@@ -5,19 +5,35 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float speed = 5f;
+    [SerializeField] float maxSpeed = 5f;
     [SerializeField] float jumpForce = 5f;
 
     Rigidbody2D rb;
+    SpriteRenderer spriteRenderer;
+    Animator animator;
 
-    public bool IsGrounded { get; set; }
+    public bool IsGrounded { get; set;}
+    Vector3 dir = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); 
+        rb = GetComponent<Rigidbody2D>();
         if (rb == null)
         {
             Debug.Log("Rigidboy2D not found on " + gameObject.name);
+        }
+    
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRender component not found on " + gameObject.name);
+        }
+
+        animator = GetComponent<Animator>();
+        if (animator == null)
+        {
+            Debug.LogError("Aniamtor component not found on " + gameObject.name);
         }
     }
 
@@ -31,19 +47,59 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Jump()
+    private void FixedUpdate()
     {
-        IsGrounded = false;
-        if (rb != null)
-        {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
+        Move();
     }
 
     private void CalculateMovement()
     {
         float hInput = Input.GetAxis("Horizontal");
-        Vector2 dir = new Vector2(hInput, 0);
-        transform.Translate(dir * speed * Time.deltaTime);
+        dir = new Vector3(hInput, 0, 0);
+        FlipSprite();
     }
+
+    private void FlipSprite()
+    {
+        if (dir.x < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (dir.x > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+    }
+
+    private void Move()
+    {   if (rb != null)
+        {
+            if (dir != Vector3.zero)
+            {
+                animator.SetBool("isWalking", true);
+                rb.AddForce(dir * speed);
+                if (Mathf.Abs(rb.velocity.x) > maxSpeed)
+                {
+                    rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+                }
+            }
+            else if (IsGrounded)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                animator.SetBool("isWalking", false);
+            }
+        }    
+    }
+
+    private void Jump()
+    {
+        IsGrounded = false;
+        if (rb != null)
+        {
+            animator.SetTrigger("jumping");
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+    }
+
+    
 }

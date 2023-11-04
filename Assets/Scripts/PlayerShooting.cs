@@ -10,6 +10,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] float fireRate;
 
+
     float nextShot = 0.3f;
 
     // Start is called before the first frame update
@@ -33,7 +34,7 @@ public class PlayerShooting : MonoBehaviour
         if(Time.time > nextShot)
         {
             nextShot = Time.time + fireRate;
-            GameObject b = Instantiate(bullet, transform.position, aim.transform.rotation);
+            GameObject b = Instantiate(bullet,aim.transform.position, aim.transform.rotation);
             //rotate to correct aim
             b.transform.Rotate(0, 0, -90);
         }

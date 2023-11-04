@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using System.Xml.Schema;
 using UnityEngine;
 
+public enum ScaleStates
+{
+    normal,
+    scaled
+}
 public class Scaler : MonoBehaviour
 {
     [SerializeField] Vector3 scaleTarget;
     [SerializeField] float scaleSpeed;
+    [SerializeField] bool autoShrink;
+    [SerializeField] float autoShrinkWait = 1;
+
+    ScaleStates scaleState = ScaleStates.normal;
 
     SpriteRenderer spriteRenderer;
+    BoxCollider2D boxCollider;
 
-    bool _isScaled = false;
-    bool _isTransitioning = false;
+    
+    bool _startTransition = false;
+    bool _startShrinking = false;
     Vector3 _startingScale;
 
 
@@ -20,6 +31,11 @@ public class Scaler : MonoBehaviour
     {
         _startingScale = transform.localScale;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        if (boxCollider == null)
+        {
+            Debug.LogError("BocCollider2D component not found on " + gameObject.name);
+        }
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = false;
@@ -32,22 +48,19 @@ public class Scaler : MonoBehaviour
 
     private void Update()
     {
-        if (_isTransitioning && !_isScaled)
+        if (scaleState == ScaleStates.normal && _startTransition)
         {
             ScaleTransition(scaleTarget);
-
         }
-        else if (_isTransitioning && _isScaled)
+
+        if (!autoShrink && scaleState == ScaleStates.scaled && _startTransition)
         {
             ScaleTransition(_startingScale);
         }
 
-        if(transform.localScale == _startingScale)
+        if (_startShrinking)
         {
-            if (spriteRenderer != null)
-            {
-                spriteRenderer.enabled = false;
-            }
+            ScaleTransition(_startingScale);
         }
     }
 
@@ -60,8 +73,12 @@ public class Scaler : MonoBehaviour
             {
                 spriteRenderer.enabled = true;
             }
-            Destroy(collision.gameObject);
-            _isTransitioning = true;
+            if(boxCollider != null)
+            {
+                boxCollider.isTrigger = false;  
+            }
+            _startTransition = true;
+            Destroy(collision.gameObject);    
         }
     }
 
@@ -70,10 +87,37 @@ public class Scaler : MonoBehaviour
         transform.localScale = Vector3.Lerp(transform.localScale, scaleToApply, scaleSpeed * Time.deltaTime);
         if (Vector3.Distance(transform.localScale, scaleToApply) < 0.05f)
         {
-            _isScaled = !_isScaled;
-            _isTransitioning = false;
+            
+            if(scaleState == ScaleStates.normal)
+            {
+                scaleState = ScaleStates.scaled;
+                if (autoShrink)
+                {
+                    StartCoroutine(StartShrinkingRoutine());
+                }
+            }
+            else
+            {
+                scaleState = ScaleStates.normal;
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.enabled = false;
+                }
+                if (boxCollider != null)
+                {
+                    boxCollider.isTrigger = true;
+                }
+                _startShrinking = false;
+            }
+            _startTransition = false;
             transform.localScale = scaleToApply;
         }
+    }
+
+    IEnumerator StartShrinkingRoutine()
+    {
+        yield return new WaitForSeconds(autoShrinkWait);
+        _startShrinking = true;
     }
 
 }
