@@ -9,14 +9,26 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] GameObject aim;
     [SerializeField] GameObject bullet;
     [SerializeField] float fireRate;
+    [SerializeField] AudioClip shootAudio;
 
-
-    float nextShot = 0.3f;
+    AudioSource audioSource;
+    Animator animator;
+    
+    float nextShot = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
+        if(audioSource == null)
+        {
+            Debug.LogError("AudioSource Componenet not found on " + gameObject.name);
+        }   
+        animator = GetComponent<Animator>();
+        if(animator == null)
+        {
+            Debug.LogError("Animator component not found on " + gameObject.name);
+        }
     }
 
     // Update is called once per frame
@@ -26,17 +38,23 @@ public class PlayerShooting : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Shoot();
+            
         }
     }
 
     private void Shoot()
     {
         if(Time.time > nextShot)
-        {
+        {   
+            animator.SetTrigger("Shooting");
             nextShot = Time.time + fireRate;
             GameObject b = Instantiate(bullet,aim.transform.position, aim.transform.rotation);
             //rotate to correct aim
             b.transform.Rotate(0, 0, -90);
+            if (shootAudio != null)
+            {
+                audioSource.PlayOneShot(shootAudio);
+            }
         }
         
     }
