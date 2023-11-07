@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Player
 {
     [SerializeField] float speed = 5f;
     [SerializeField] float maxSpeed = 5f;
@@ -12,25 +12,20 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] AudioClip jumpClip;
 
-    Rigidbody2D rb;
-    SpriteRenderer spriteRenderer;
-    Animator animator;
-    AudioSource audioSource;
+    
 
     public bool IsGrounded { get; set;}
-    Vector3 dir = Vector3.zero;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        GetAllComponents();
-    }
-
-    
+    public bool IsBeenHit {get; set;}
+   
+    Vector3 _dir = Vector3.zero;
 
     // Update is called once per frame
     void Update()
     {
+        ClampVelocity();
+
+        if (IsBeenHit) { return; }
+
         CalculateMovement();
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
         {
@@ -38,11 +33,22 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void ClampVelocity()
+    {
+        if (Mathf.Abs(rb.velocity.x) > maxSpeed)
+        {
+            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+        }
+       
+    }
+
     private void FixedUpdate()
     {
+        if (IsBeenHit) { return; }
+        
         if (rb != null)
         {
-            if (dir != Vector3.zero)
+            if (_dir != Vector3.zero)
             {
                 Move();
                 animator.SetBool("Walking", true);
@@ -59,17 +65,17 @@ public class PlayerMovement : MonoBehaviour
     private void CalculateMovement()
     {
         float hInput = Input.GetAxis("Horizontal");
-        dir = new Vector3(hInput, 0, 0);
+        _dir = new Vector3(hInput, 0, 0);
         FlipSprite();
     }
 
     private void FlipSprite()
     {
-        if (dir.x < 0)
+        if (_dir.x < 0)
         {
             spriteRenderer.flipX = true;
         }
-        else if (dir.x > 0)
+        else if (_dir.x > 0)
         {
             spriteRenderer.flipX = false;
         }
@@ -90,38 +96,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Move()
-    {
-        
-        rb.AddForce(dir * speed);
-        if (Mathf.Abs(rb.velocity.x) > maxSpeed)
-        {
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
-        }
+    {   
+        rb.AddForce(_dir * speed);  
     }
 
-    private void GetAllComponents()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        if (rb == null)
-        {
-            Debug.Log("Rigidboy2D not found on " + gameObject.name);
-        }
-
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer == null)
-        {
-            Debug.LogError("SpriteRender component not found on " + gameObject.name);
-        }
-
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            Debug.LogError("AudioSource component not found on " + gameObject.name);
-        }
-        animator = GetComponent<Animator>();
-        if (animator == null)
-        {
-            Debug.LogError("Animator controller not found on " + gameObject.name);
-        }
-    }
+   
 }

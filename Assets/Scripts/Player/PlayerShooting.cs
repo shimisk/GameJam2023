@@ -4,31 +4,20 @@ using Unity.Mathematics;
 using UnityEngine;
 
 
-public class PlayerShooting : MonoBehaviour
+public class PlayerShooting : Player
 {
     [SerializeField] GameObject aim;
     [SerializeField] GameObject bullet;
     [SerializeField] float fireRate;
     [SerializeField] AudioClip shootAudio;
 
-    AudioSource audioSource;
-    Animator animator;
     
-    float nextShot = 0f;
+    float _nextShot = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        if(audioSource == null)
-        {
-            Debug.LogError("AudioSource Componenet not found on " + gameObject.name);
-        }   
-        animator = GetComponent<Animator>();
-        if(animator == null)
-        {
-            Debug.LogError("Animator component not found on " + gameObject.name);
-        }
+       
     }
 
     // Update is called once per frame
@@ -37,17 +26,16 @@ public class PlayerShooting : MonoBehaviour
         Aiming();
         if (Input.GetMouseButtonDown(0))
         {
-            Shoot();
-            
+            Shoot();      
         }
     }
 
     private void Shoot()
     {
-        if(Time.time > nextShot)
+        if(Time.time > _nextShot)
         {   
             animator.SetTrigger("Shooting");
-            nextShot = Time.time + fireRate;
+            _nextShot = Time.time + fireRate;
             GameObject b = Instantiate(bullet,aim.transform.position, aim.transform.rotation);
             //rotate to correct aim
             b.transform.Rotate(0, 0, -90);
@@ -56,7 +44,6 @@ public class PlayerShooting : MonoBehaviour
                 audioSource.PlayOneShot(shootAudio);
             }
         }
-        
     }
 
     private void Aiming()

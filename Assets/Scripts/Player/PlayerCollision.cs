@@ -2,17 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCollision : MonoBehaviour
+public class PlayerCollision : Player
 {
+    [SerializeField] float repelForce = 2.5f;
+    [SerializeField] float timerToEnableInput = 0.75f;
+    [SerializeField] AudioClip impactClip;
+
+    PlayerMovement player;
+
+    private void Start()
+    {
+      player = GetComponent<PlayerMovement>();
+        if (player == null)
+        {
+            Debug.LogError("PlayerMovement not found on " + gameObject.name);
+        }
+    }
+
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground")) 
         {
-            PlayerMovement player = gameObject.GetComponent<PlayerMovement>();
+           
             if (player != null)
             {
                  player.IsGrounded = true;
             }
         }
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            player.IsBeenHit = true;
+            GetDamaged();
+
+            Vector3 contactPoint = collision.GetContact(0).point; 
+            Vector3 vectorDir = (transform.position - contactPoint);
+            if(rb != null)
+            {
+                Vector2 forceDir = new Vector2(Mathf.Sign(vectorDir.x) * 1, 1);
+                rb.AddForce(forceDir * repelForce,ForceMode2D.Impulse);
+            }
+            if (impactClip != null)
+            {
+                audioSource.PlayOneShot(impactClip);
+            }
+            StartCoroutine(ResetHit());
+            
+        }
+    }
+
+    IEnumerator ResetHit()
+    {
+        animator.SetBool("IsHurt", true);
+        yield return new WaitForSeconds(timerToEnableInput);
+        animator.SetBool("IsHurt", false);
+        player.IsBeenHit= false;
     }
 }
