@@ -10,7 +10,9 @@ public enum ScaleStates
 }
 public class Scaler : MonoBehaviour
 {
-    [SerializeField] Vector3 scaleTarget;
+    [SerializeField] float scaleSize;
+    [SerializeField] bool scaleOnX;
+    [SerializeField] bool scaleOnY;
     [SerializeField] float scaleSpeed;
     [SerializeField] bool autoShrink;
     [SerializeField] float autoShrinkWait = 1;
@@ -23,13 +25,13 @@ public class Scaler : MonoBehaviour
     
     bool _startTransition = false;
     bool _startShrinking = false;
-    Vector3 _startingScale;
-
+    Vector2 _startingScale;
+    Vector2 _scaleTarget;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        _startingScale = transform.localScale;
         spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
         if (boxCollider == null)
@@ -39,6 +41,8 @@ public class Scaler : MonoBehaviour
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = false;
+            _startingScale = spriteRenderer.size;
+            CalculateScaleToApply();
         }
         else
         {
@@ -46,11 +50,12 @@ public class Scaler : MonoBehaviour
         }
     }
 
+    
     private void Update()
-    {
+    { 
         if (scaleState == ScaleStates.normal && _startTransition)
         {
-            ScaleTransition(scaleTarget);
+            ScaleTransition(_scaleTarget);
         }
 
         if (!autoShrink && scaleState == ScaleStates.scaled && _startTransition)
@@ -69,6 +74,7 @@ public class Scaler : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Bullet"))
         {
+            boxCollider.isTrigger = false;
             if(spriteRenderer != null)
             {
                 spriteRenderer.enabled = true;
@@ -82,10 +88,27 @@ public class Scaler : MonoBehaviour
         }
     }
 
+    private void CalculateScaleToApply()
+    {
+        if (scaleOnX && scaleOnY)
+        {
+            _scaleTarget = new Vector2(scaleSize, scaleSize);
+        }
+        else if (scaleOnX)
+        {
+            _scaleTarget = new Vector2(scaleSize, _startingScale.y);
+        }
+        else if (scaleOnY)
+        {
+            _scaleTarget = new Vector2(_startingScale.x, scaleSize);
+        }
+    }
+
+
     void ScaleTransition(Vector3 scaleToApply)
     {
-        transform.localScale = Vector3.Lerp(transform.localScale, scaleToApply, scaleSpeed * Time.deltaTime);
-        if (Vector3.Distance(transform.localScale, scaleToApply) < 0.05f)
+        spriteRenderer.size = Vector2.Lerp(spriteRenderer.size, scaleToApply, scaleSpeed * Time.deltaTime);
+        if (Vector2.Distance(spriteRenderer.size, scaleToApply) < 0.05f)
         {
             
             if(scaleState == ScaleStates.normal)
@@ -110,7 +133,7 @@ public class Scaler : MonoBehaviour
                 _startShrinking = false;
             }
             _startTransition = false;
-            transform.localScale = scaleToApply;
+            spriteRenderer.size = scaleToApply;
         }
     }
 
