@@ -48,6 +48,10 @@ public class Player : MonoBehaviour
     {
         Health--;
         Debug.Log("health" + Health);
+        if (Health < 1)
+        {
+            Debug.Log("gameOver");
+        }
     }
 
 }

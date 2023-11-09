@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Bullet
   - Enemy
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -46,4 +47,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 69633929
+    locked: 0
+  - name: Bullets
+    uniqueID: 186209249
     locked: 0

@@ -19,13 +19,7 @@ public class Lift : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float cicle = Time.time / period;
-        const float tau = Mathf.PI * 2;
-
-        float rawSinWave = Mathf.Sin(cicle * tau);
-
-        float sinWave = (rawSinWave + 1) / 2;
-        transform.position = _startPos + direction * sinWave;
+        transform.position = UtilityHelper.SinWaveMovement(period, _startPos, direction);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -41,6 +35,9 @@ public class Lift : MonoBehaviour
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-            collision.transform.parent = null;    
+        if (collision.transform.parent != null)
+        {
+            collision.transform.parent = null;
+        }
     }
 }
