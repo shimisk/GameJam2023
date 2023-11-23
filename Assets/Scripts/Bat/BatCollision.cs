@@ -27,6 +27,7 @@ public class BatCollision : MonoBehaviour
             if (_beenHit) { return; }
             
             ChangeBatScale();
+            bat.ChangeSpeed();
             if (transform.localScale.x < 0.1f)
             {
                 Debug.Log("You win");

@@ -4,27 +4,32 @@ using UnityEngine;
 
 public class BatMovement : MonoBehaviour
 {
-    [SerializeField] Vector3 direction;
-    [SerializeField] float period = 2f;
+    [SerializeField] Transform rotationCenter;
+    [SerializeField] float rotationRadius = 2f;
+    [SerializeField] float angularSpeed = 2f;
+    [SerializeField] float elipsemodifier = 2f;
+    [SerializeField] float speedModifier;
 
-    float _speedModifier = 0.1f;
-    Vector3 _startPos;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        _startPos = transform.position;
-    }
+    float posX, posY, angle = 0f;
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = UtilityHelper.SinWaveMovement(period, _startPos, direction,true);     
+        if (rotationCenter == null) { return; }
+        posX = rotationCenter.position.x + Mathf.Cos(angle) * rotationRadius;
+        posY = rotationCenter.position.y + Mathf.Sin(angle) * rotationRadius / elipsemodifier;
+        transform.position = new Vector2(posX, posY);
+        angle = angle + angularSpeed * Time.deltaTime;
+
+        if(angle>= 360f)
+        {
+            angle = 0f; ;
+        }
+
     }
 
     public void ChangeSpeed()
     {
-        period -= period * (_speedModifier);
+        angularSpeed += angularSpeed * speedModifier; 
     }
 }

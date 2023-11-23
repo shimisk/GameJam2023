@@ -16,6 +16,8 @@ public class Scaler : MonoBehaviour
     [SerializeField] float scaleSpeed;
     [SerializeField] bool autoShrink;
     [SerializeField] float autoShrinkWait = 1;
+    [SerializeField] bool isVisible;
+    [SerializeField] bool autoScale;
 
     ScaleStates scaleState = ScaleStates.normal;
 
@@ -38,16 +40,24 @@ public class Scaler : MonoBehaviour
         {
             Debug.LogError("BocCollider2D component not found on " + gameObject.name);
         }
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.enabled = false;
-            _startingScale = spriteRenderer.size;
-            CalculateScaleToApply();
-        }
-        else
-        {
-           Debug.LogError("SpriteRender not found on " + gameObject.name);
-        }
+       
+
+            if (spriteRenderer != null)
+            {
+                if (!isVisible)
+                {
+                spriteRenderer.enabled = false;
+                }
+                _startingScale = spriteRenderer.size;
+                CalculateScaleToApply();
+                
+            }
+            else
+            {
+                Debug.LogError("SpriteRender not found on " + gameObject.name);
+            }
+        
+       
     }
 
     
@@ -122,7 +132,7 @@ public class Scaler : MonoBehaviour
             else
             {
                 scaleState = ScaleStates.normal;
-                if (spriteRenderer != null)
+                if (spriteRenderer != null && !isVisible)
                 {
                     spriteRenderer.enabled = false;
                 }

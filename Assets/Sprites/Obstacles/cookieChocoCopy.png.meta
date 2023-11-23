@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5380262afa7d141cf9c34d56887c814a
+guid: fdbd8b02e5bb00741b6f50d7c94657a5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -107,7 +107,59 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: tvOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -123,22 +175,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: choco_platcopy_0
+      name: cookieChocoCopy_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 210
+        width: 70
         height: 40
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 11, y: 6, z: 11, w: 29}
+      border: {x: 10, y: 12, z: 10, w: 14}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99436a4217213478dbc4a106d01ed822
-      internalID: -628538168
+      spriteID: 0514df891b19fb146b57e6c8b27446c2
+      internalID: -1749902604
       vertices: []
       indices: 
       edges: []
@@ -154,7 +206,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      choco_platcopy_0: -628538168
+      cookieChocoCopy_0: -1749902604
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
