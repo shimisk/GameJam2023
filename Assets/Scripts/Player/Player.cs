@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public GameObject UI;
+
     protected Rigidbody2D rb;
     protected SpriteRenderer spriteRenderer;
     protected AudioSource audioSource;
     protected Animator animator;
+
     public float Health { get; private set; }
 
     private void Awake()
     {
         Health = 3;
         GetAllComponents();
+        UI.SetActive(false);
     }
-    
+
+    private void Start()
+    {
+       
+    }
+
 
     private void GetAllComponents()
     {
@@ -51,6 +60,11 @@ public class Player : MonoBehaviour
         if (Health < 1)
         {
             Debug.Log("gameOver");
+
+            //pause game
+            Time.timeScale = 0.0f;
+
+            UI.SetActive (true);
         }
     }
 

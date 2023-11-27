@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-public class PlayerMovement : Player
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float speed = 5f;
     [SerializeField] float maxSpeed = 5f;
@@ -18,6 +18,18 @@ public class PlayerMovement : Player
     public bool IsBeenHit {get; set;}
    
     Vector3 _dir = Vector3.zero;
+    private Animator _animator;
+    private Rigidbody2D _rb;
+    private SpriteRenderer _spriteRenderer;
+    private AudioSource _audioSource;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -35,9 +47,9 @@ public class PlayerMovement : Player
 
     private void ClampVelocity()
     {
-        if (Mathf.Abs(rb.velocity.x) > maxSpeed)
+        if (Mathf.Abs(_rb.velocity.x) > maxSpeed)
         {
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+            _rb.velocity = new Vector2(Mathf.Sign(_rb.velocity.x) * maxSpeed, _rb.velocity.y);
         }
        
     }
@@ -46,17 +58,17 @@ public class PlayerMovement : Player
     {
         if (IsBeenHit) { return; }
         
-        if (rb != null)
+        if (_rb != null)
         {
             if (_dir != Vector3.zero)
             {
                 Move();
-                animator.SetBool("Walking", true);
+                _animator.SetBool("Walking", true);
             }
             else if (IsGrounded)
             {
-                rb.velocity = new Vector2(0, rb.velocity.y);
-                animator.SetBool("Walking", false);
+                _rb.velocity = new Vector2(0, _rb.velocity.y);
+                _animator.SetBool("Walking", false);
 
             }
         }
@@ -73,31 +85,31 @@ public class PlayerMovement : Player
     {
         if (_dir.x < 0)
         {
-            spriteRenderer.flipX = true;
+            _spriteRenderer.flipX = true;
         }
         else if (_dir.x > 0)
         {
-            spriteRenderer.flipX = false;
+            _spriteRenderer.flipX = false;
         }
     }
 
     private void Jump()
     {
         IsGrounded = false;
-        if (rb != null)
+        if (_rb != null)
         {
             if (jumpClip != null)
             {
-                audioSource.PlayOneShot(jumpClip);
+                _audioSource.PlayOneShot(jumpClip);
             }
-            animator.SetTrigger("Jumping");
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            _animator.SetTrigger("Jumping");
+            _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }
 
     private void Move()
     {   
-        rb.AddForce(_dir * speed);  
+        _rb.AddForce(_dir * speed);  
     }
 
    

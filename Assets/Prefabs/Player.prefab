@@ -130,7 +130,6 @@ GameObject:
   - component: {fileID: 3789050525932385367}
   - component: {fileID: 7669102332805332008}
   - component: {fileID: 8915587664967713490}
-  - component: {fileID: 4701688144713945336}
   - component: {fileID: 885624136321022376}
   - component: {fileID: 2181395180803738004}
   - component: {fileID: 6658860423985583130}
@@ -398,18 +397,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8266797, y: 1.57339}
   m_EdgeRadius: 0
---- !u!114 &4701688144713945336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7271187038540005108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 934adfc31821697479c50dd40ec6d0b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &885624136321022376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,6 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94cf333b8a4827045be1b7bbb3453a11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UI: {fileID: 0}
   speed: 50
   maxSpeed: 5
   jumpForce: 10
@@ -438,6 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6fa500ae714d84ca6dcfa07bef0cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UI: {fileID: 0}
   aim: {fileID: 3791684451032688901}
   bullet: {fileID: 4222915441375678603, guid: 0708f971eaaf8624eb0e4326aa306943, type: 3}
   fireRate: 0.3
@@ -454,6 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5396ea04fd7534f4f94a5b1421ade946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UI: {fileID: 0}
   repelForce: 2.5
   timerToEnableInput: 0.75
   impactClip: {fileID: 8300000, guid: 3d24e6dd5f24d6a44932490df0778beb, type: 3}
