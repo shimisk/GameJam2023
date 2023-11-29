@@ -38,8 +38,8 @@ public class FallingCandy : MonoBehaviour
             rb.velocity = Vector2.zero;
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+   
+    private void OnCollisionEnter2D(Collision2D collision)
     { 
         transform.position = _startPos;
         _canFall = false;

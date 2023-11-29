@@ -7,6 +7,7 @@ public class _playerCollision : MonoBehaviour
     [SerializeField] float repelForce = 2.5f;
     [SerializeField] float timerToEnableInput = 0.75f;
     [SerializeField] AudioClip impactClip;
+    [SerializeField] AudioClip collectClip;   
 
     private PlayerMovement _playerMovement;
     private Player _player;
@@ -43,10 +44,9 @@ public class _playerCollision : MonoBehaviour
             //if is hit return
             if (_playerMovement.IsBeenHit) { return;}
 
-            _playerMovement.IsBeenHit = true;
-            _player.GetDamaged();
-            CalculateRepelForce(collision);
-            StartCoroutine(ResetHit());
+            GetHit(collision);
+            Destroy(collision.gameObject);
+
         }
         if (collision.gameObject.CompareTag("EnemyBullet"))
         {
@@ -57,13 +57,36 @@ public class _playerCollision : MonoBehaviour
                 return;
             }
 
-            _playerMovement.IsBeenHit = true;
-            _player.GetDamaged();
-            CalculateRepelForce(collision);
+            GetHit(collision);
             Destroy(collision.gameObject);
-            StartCoroutine(ResetHit());
+
+        }
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            if (_playerMovement.IsBeenHit) { return; }
+            GetHit(collision);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Friend"))
+        {
+            Destroy(collision.gameObject);
+            _audioSource.PlayOneShot(collectClip);
+        }
+    }
+
+    private void GetHit(Collision2D collision)
+    {
+        _playerMovement.IsBeenHit = true;
+        _player.GetDamaged();
+        CalculateRepelForce(collision);
+        StartCoroutine(ResetHit());
+    }
+
+   
+
 
     private void CalculateRepelForce(Collision2D collision)
     {

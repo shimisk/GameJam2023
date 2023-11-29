@@ -8,11 +8,13 @@ TagManager:
   - Bullet
   - Enemy
   - EnemyBullet
+  - Obstacle
+  - Friend
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Bullets
   - Water
   - UI
   - 

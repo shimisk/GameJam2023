@@ -168,7 +168,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -292,7 +292,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 69633929
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -823382222, guid: 1d3d5390b662c35499e920d990cd479d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -409,7 +409,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94cf333b8a4827045be1b7bbb3453a11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI: {fileID: 0}
   speed: 50
   maxSpeed: 5
   jumpForce: 10
@@ -426,7 +425,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6fa500ae714d84ca6dcfa07bef0cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI: {fileID: 0}
+  gameOverMenu: {fileID: 0}
+  lifes: {fileID: 0}
+  lifeSprites:
+  - {fileID: 21300000, guid: 631c34329cf0eb4499b6b80fa79f8952, type: 3}
+  - {fileID: 21300000, guid: fff639b1bf7eaa94aaf505acaac008e3, type: 3}
+  - {fileID: 21300000, guid: 9b3a62ee82212554fa7761d847c2fc86, type: 3}
+  - {fileID: 21300000, guid: 4b4a31f047fef46489a5c9642469167d, type: 3}
   aim: {fileID: 3791684451032688901}
   bullet: {fileID: 4222915441375678603, guid: 0708f971eaaf8624eb0e4326aa306943, type: 3}
   fireRate: 0.3
@@ -443,7 +448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5396ea04fd7534f4f94a5b1421ade946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI: {fileID: 0}
   repelForce: 2.5
   timerToEnableInput: 0.75
   impactClip: {fileID: 8300000, guid: 3d24e6dd5f24d6a44932490df0778beb, type: 3}
+  collectClip: {fileID: 8300000, guid: c5ee55a612f22b341abb2c89856f6bc4, type: 3}

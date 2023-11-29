@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4544183172733640000}
   - component: {fileID: 5159335599904967714}
   - component: {fileID: 7098835344927102508}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CandyBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}

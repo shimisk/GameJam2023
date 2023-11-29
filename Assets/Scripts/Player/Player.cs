@@ -2,29 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.UI;
+
 public class Player : MonoBehaviour
 {
-    public GameObject UI;
+    public GameObject gameOverMenu;
+    public GameObject lifes;
+    public Sprite[] lifeSprites;
 
     protected Rigidbody2D rb;
     protected SpriteRenderer spriteRenderer;
     protected AudioSource audioSource;
     protected Animator animator;
 
-    public float Health { get; private set; }
+    public int Health { get; private set; }
+
+    Image _currentLife;
 
     private void Awake()
     {
         Health = 3;
         GetAllComponents();
-        UI.SetActive(false);
+        gameOverMenu.SetActive(false);
+        _currentLife = lifes.gameObject.GetComponent<Image>();
+        _currentLife.sprite = lifeSprites[Health];
     }
-
-    private void Start()
-    {
-       
-    }
-
 
     private void GetAllComponents()
     {
@@ -56,15 +58,16 @@ public class Player : MonoBehaviour
      public void GetDamaged()
     {
         Health--;
-        Debug.Log("health" + Health);
+       
+        _currentLife.sprite = lifeSprites[Health];
         if (Health < 1)
         {
-            Debug.Log("gameOver");
+            
 
             //pause game
             Time.timeScale = 0.0f;
 
-            UI.SetActive (true);
+            gameOverMenu.SetActive (true);
         }
     }
 
