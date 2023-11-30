@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BatMini : MonoBehaviour
 {
-
+    
     public bool HasTarget {  get; set; }
     
     Animator animator;
@@ -26,11 +26,13 @@ public class BatMini : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(HasTarget)
         {
             col.enabled = true;
             animator.SetBool("HasTarget", true);
-            transform.position = Vector2.MoveTowards(transform.position, _target.transform.position, _speed * Time.deltaTime);
+            Vector3 targetPos = new Vector3(_target.transform.position.x, _target.transform.position.y + 2, 0);
+            transform.position = Vector2.MoveTowards(transform.position, targetPos, _speed * Time.deltaTime);
         }
     }
 
@@ -38,6 +40,8 @@ public class BatMini : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
+            ScoreManager.Instance.Addscore(1000);
+            Debug.Log(ScoreManager.Instance.Score);
             Destroy(gameObject);
             Destroy(other.gameObject);
         }

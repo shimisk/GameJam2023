@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public GameObject gameOverMenu;
     public GameObject lifes;
     public Sprite[] lifeSprites;
+    public TMP_Text scoreTxt;
 
     protected Rigidbody2D rb;
     protected SpriteRenderer spriteRenderer;
@@ -17,11 +18,12 @@ public class Player : MonoBehaviour
 
     public int Health { get; private set; }
 
+    protected bool _isAlive = true;
     Image _currentLife;
 
     private void Awake()
     {
-        Health = 3;
+        Health = 7;
         GetAllComponents();
         gameOverMenu.SetActive(false);
         _currentLife = lifes.gameObject.GetComponent<Image>();
@@ -66,8 +68,10 @@ public class Player : MonoBehaviour
 
             //pause game
             Time.timeScale = 0.0f;
-
+            _isAlive = false;
             gameOverMenu.SetActive (true);
+            scoreTxt.gameObject.SetActive(true);
+            scoreTxt.text = $"Score: {ScoreManager.Instance.Score}";
         }
     }
 

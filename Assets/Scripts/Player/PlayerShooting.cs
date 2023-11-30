@@ -32,7 +32,7 @@ public class PlayerShooting : Player
 
     private void Shoot()
     {
-        if(Time.time > _nextShot)
+        if(Time.time > _nextShot && _isAlive)
         {   
             animator.SetTrigger("Shooting");
             _nextShot = Time.time + fireRate;

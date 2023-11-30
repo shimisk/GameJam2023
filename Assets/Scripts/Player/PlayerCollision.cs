@@ -43,7 +43,7 @@ public class _playerCollision : MonoBehaviour
         {
             //if is hit return
             if (_playerMovement.IsBeenHit) { return;}
-
+            
             GetHit(collision);
             Destroy(collision.gameObject);
 
@@ -56,7 +56,7 @@ public class _playerCollision : MonoBehaviour
                 Destroy(collision.gameObject);
                 return;
             }
-
+            
             GetHit(collision);
             Destroy(collision.gameObject);
 
@@ -64,6 +64,7 @@ public class _playerCollision : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             if (_playerMovement.IsBeenHit) { return; }
+           
             GetHit(collision);
         }
     }
@@ -74,6 +75,7 @@ public class _playerCollision : MonoBehaviour
         {
             Destroy(collision.gameObject);
             _audioSource.PlayOneShot(collectClip);
+            ScoreManager.Instance.Addscore(5000);
         }
     }
 
@@ -83,6 +85,7 @@ public class _playerCollision : MonoBehaviour
         _player.GetDamaged();
         CalculateRepelForce(collision);
         StartCoroutine(ResetHit());
+        ScoreManager.Instance.Addscore(-500);
     }
 
    

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4544183172733640000}
   - component: {fileID: 5159335599904967714}
   - component: {fileID: 7098835344927102508}
+  - component: {fileID: 8027930973896721176}
   m_Layer: 3
   m_Name: CandyBullet
   m_TagString: EnemyBullet
@@ -82,6 +83,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 8
+--- !u!114 &8027930973896721176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4348412482157404391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 605b9866f8eacf345b43669cc229491a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9018687393241614961
 GameObject:
   m_ObjectHideFlags: 0

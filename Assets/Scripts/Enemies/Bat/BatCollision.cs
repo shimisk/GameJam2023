@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class BatCollision : MonoBehaviour
 {
     [SerializeField] float timerToVulnerable = 0.5f;
-
+    public GameObject winMenu;
+    public TMP_Text scoreTxt;
     BatMovement bat;
 
     private bool _beenHit;
@@ -30,7 +32,14 @@ public class BatCollision : MonoBehaviour
             bat.ChangeSpeed();
             if (transform.localScale.x < 0.1f)
             {
-                Debug.Log("You win");
+                ScoreManager.Instance.Addscore(10000);
+                Time.timeScale = 0;
+                Debug.Log(ScoreManager.Instance.Score);
+                winMenu.SetActive(true);
+                
+                scoreTxt.gameObject.SetActive(true);
+                scoreTxt.text = $"Score: {ScoreManager.Instance.Score}";
+
             }
             _beenHit = true;
             StartCoroutine(ResetHit());

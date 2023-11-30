@@ -9,7 +9,7 @@ public class BatShooting : MonoBehaviour
     [SerializeField] float maxWait = 4f;
     [SerializeField] float minWait = 2f;
 
-   
+    
     bool _inCombat = false;
     
     // Start is called before the first frame update
@@ -23,10 +23,27 @@ public class BatShooting : MonoBehaviour
     {
         while (!_inCombat)
         {
-           Vector3 posToSpawn = new Vector3(transform.position.x, transform.position.y - 1.1f);
-           GameObject bullet = Instantiate(bulletsPrefab[0], posToSpawn, Quaternion.identity);
-           bullet.transform.localScale = transform.localScale;
+           Shoot();
            yield return new WaitForSeconds(Random.Range(minWait,maxWait));
         }
+        yield return new WaitForSeconds(2f);
+        while (_inCombat)
+        {
+            int index = Random.Range(0,bulletsPrefab.Length);
+            Shoot(index);
+            yield return new WaitForSeconds(Random.Range(minWait, maxWait));
+        }
+    }
+
+    void Shoot(int index = 0)
+    {
+        Vector3 posToSpawn = new Vector3(transform.position.x, transform.position.y - 1.1f);
+        GameObject bullet = Instantiate(bulletsPrefab[index], posToSpawn, Quaternion.identity);
+        bullet.transform.localScale = transform.localScale;
+    }
+
+    public void SetInCombat()
+    {
+        _inCombat = true;
     }
 }
