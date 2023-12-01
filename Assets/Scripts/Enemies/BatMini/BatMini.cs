@@ -41,7 +41,7 @@ public class BatMini : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             ScoreManager.Instance.Addscore(1000);
-            Debug.Log(ScoreManager.Instance.Score);
+          
             Destroy(gameObject);
             Destroy(other.gameObject);
         }

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public GameObject lifes;
     public Sprite[] lifeSprites;
     public TMP_Text scoreTxt;
+    public TMP_Text highScoreTxt;
 
     protected Rigidbody2D rb;
     protected SpriteRenderer spriteRenderer;
@@ -69,9 +70,17 @@ public class Player : MonoBehaviour
             //pause game
             Time.timeScale = 0.0f;
             _isAlive = false;
+            if (ScoreManager.Instance.Score > ScoreManager.Instance.HighScore)
+            {
+                ScoreManager.Instance.SaveHighScore();
+                Debug.Log(Application.persistentDataPath);
+            }
             gameOverMenu.SetActive (true);
             scoreTxt.gameObject.SetActive(true);
             scoreTxt.text = $"Score: {ScoreManager.Instance.Score}";
+            highScoreTxt.gameObject.SetActive(true);
+            highScoreTxt.text = $"HighScore: {ScoreManager.Instance.HighScore}";
+            
         }
     }
 

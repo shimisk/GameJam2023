@@ -7,6 +7,7 @@ public class BatCollision : MonoBehaviour
     [SerializeField] float timerToVulnerable = 0.5f;
     public GameObject winMenu;
     public TMP_Text scoreTxt;
+    public TMP_Text highScoreTxt;
     BatMovement bat;
 
     private bool _beenHit;
@@ -34,11 +35,19 @@ public class BatCollision : MonoBehaviour
             {
                 ScoreManager.Instance.Addscore(10000);
                 Time.timeScale = 0;
-                Debug.Log(ScoreManager.Instance.Score);
+                if (ScoreManager.Instance.Score > ScoreManager.Instance.HighScore)
+                {
+
+                    ScoreManager.Instance.SaveHighScore();
+                    Debug.Log(Application.persistentDataPath);
+                }
                 winMenu.SetActive(true);
                 
                 scoreTxt.gameObject.SetActive(true);
                 scoreTxt.text = $"Score: {ScoreManager.Instance.Score}";
+                highScoreTxt.gameObject.SetActive(true);
+                highScoreTxt.text = $"HighScore: {ScoreManager.Instance.HighScore}";
+              
 
             }
             _beenHit = true;

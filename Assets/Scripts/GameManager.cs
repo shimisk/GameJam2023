@@ -5,11 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
+    public GameObject introMenu;
     private void Start()
     {
-        Time.timeScale = 1.0f;
+        Time.timeScale = 0f;
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Return))
+        {
+            Time.timeScale = 1f;
+            introMenu.SetActive(false);
+        }
+    }
+
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
